@@ -149,7 +149,7 @@ data "template_file" "nodes-aws-iam-role-policy" {
 }
 
 resource "aws_internet_gateway" "igw" {
-  vpc_id = "${aws_vpc.kubernetes.id}"
+  vpc_id = "${aws_vpc.main.id}"
 
   tags = {
     KubernetesCluster = "${var.fqdn}"
@@ -166,7 +166,7 @@ resource "aws_launch_configuration" "master" {
   name_prefix                 = "master-${var.region}a.masters.${var.fqdn}-"
   image_id                    = "${var.master-ami}"
   instance_type               = "${var.master-instance-type}"
-  key_name                    = "${aws_key_pair.kubernetes}"
+  key_name                    = "${aws_key_pair.kubernetes.id}"
   iam_instance_profile        = "${aws_iam_instance_profile.masters.id}"
   security_groups             = ["${aws_security_group.masters.id}"]
   associate_public_ip_address = true
@@ -192,9 +192,9 @@ data "template_file" "master-aws-launch-configuration-user-data" {
   template = "${file("data/aws_launch_configuration_master_user_data")}"
 
   vars {
-    fqdn             = "${var.fqdn}"
-    kops-state-store = "${var.kops-state-store}"
-    region           = "${var.region}"
+    FQDN   = "${var.fqdn}"
+    KOPS   = "${var.kops-state-store}"
+    REGION = "${var.region}"
   }
 }
 
@@ -223,8 +223,8 @@ data "template_file" "nodes-aws-launch-configuration-user-data" {
   template = "${file("data/aws_launch_configuration_nodes_user_data")}"
 
   vars {
-    fqdn             = "${var.fqdn}"
-    kops-state-store = "${var.kops-state-store}"
+    FQDN = "${var.fqdn}"
+    KOPS = "${var.kops-state-store}"
   }
 }
 

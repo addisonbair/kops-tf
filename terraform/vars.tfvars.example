@@ -1,0 +1,8 @@
+access_key=""
+region="us-west-1"
+secret_key=""
+token=""
+fqdn="kube.example.com"
+ec2_pubkey="ssh-rsa ...
+..."
+kops-state-store="NAME-kops-store"
