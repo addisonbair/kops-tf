@@ -192,9 +192,11 @@ data "template_file" "master-aws-launch-configuration-user-data" {
   template = "${file("data/aws_launch_configuration_master_user_data")}"
 
   vars {
-    FQDN   = "${var.fqdn}"
-    KOPS   = "${var.kops-state-store}"
-    REGION = "${var.region}"
+    NODEUP_URL  = "${var.nodeup-url}"
+    KUBE_ASSETS = "${var.kube-assets}"
+    FQDN        = "${var.fqdn}"
+    KOPS        = "${var.kops-state-store}"
+    REGION      = "${var.region}"
   }
 }
 
@@ -223,8 +225,10 @@ data "template_file" "nodes-aws-launch-configuration-user-data" {
   template = "${file("data/aws_launch_configuration_nodes_user_data")}"
 
   vars {
-    FQDN = "${var.fqdn}"
-    KOPS = "${var.kops-state-store}"
+    NODEUP_URL  = "${var.nodeup-url}"
+    KUBE_ASSETS = "${var.kube-assets}"
+    FQDN        = "${var.fqdn}"
+    KOPS        = "${var.kops-state-store}"
   }
 }
 
